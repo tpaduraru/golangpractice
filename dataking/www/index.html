@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Data King</title>
+		<link rel="shortcut icon" href="favicon.png">
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body onload=start()>
+		<!-- UI layout -->
+		<div class="ui-container">
+			<div class="btn-list">
+				<button class="btn btn-login">Login</div>
+				<button class="btn btn-insert">Insert</div>
+				<button class="btn btn-update">Update</div>
+				<button class="btn btn-upsert">Upsert</div>
+				<button class="btn btn-lookup">Lookup</div>
+			</div>
+		</div>
+
+		<!-- Connect UI actions to Go functions -->
+		<script>
+			const btnLogin = document.querySelector('.btn-login');
+			const btnInsert = document.querySelector('.btn-insert');
+			const btnUpdate = document.querySelector('.btn-update');
+			const btnUpsert = document.querySelector('.btn-upsert');
+			const btnLookup = document.querySelector('.btn-lookup');
+
+			// We use async/await because Go functions are asynchronous
+			btnLogin.addEventListener('click', async () => {
+				await loadLogin(); // Call Go function
+				render();
+			});
+			
+			btnInsert.addEventListener('click', async () => {
+				await loadInsert(); // Call Go function
+				render();
+			});
+			
+			btnUpdate.addEventListener('click', async () => {
+				await loadUpdate(); // Call Go function
+				render();
+			});
+			
+			btnUpsert.addEventListener('click', async () => {
+				await loadUpsert(); // Call Go function
+				render();
+			});
+			
+			btnLookup.addEventListener('click', async () => {
+				await loadLookup(); // Call Go function
+				render();
+			});
+
+			render();
+		</script>
+	</body>
+</html>
