@@ -17,7 +17,10 @@ import (
 //go:embed www
 var fs embed.FS
 
-var ui
+func loadLogin() {
+	//doesn't work because ui isn't declared yet
+	//ui.Load(fmt.Sprintf("http://%s/www/login.html", ln.Addr()))
+}
 
 // Go types that are bound to the UI must be thread-safe, because each binding
 // is executed in its own goroutine. In this simple case we may use atomic
@@ -25,11 +28,6 @@ var ui
 type counter struct {
 	sync.Mutex
 	count int
-}
-
-func loadLogin() {
-	//doesn't work because ui isn't declared yet
-	ui.Load(fmt.Sprintf("http://%s/www/login.html", ln.Addr()))
 }
 
 func (c *counter) Add(n int) {
@@ -74,7 +72,7 @@ func main() {
 		log.Fatal(err)
 	}
 	defer ln.Close()
-	go http.Serve(ln, http.FileServer(http.(fs)))
+	go http.Serve(ln, http.FileServer(http.FS(fs)))
 	ui.Load(fmt.Sprintf("http://%s/www", ln.Addr()))
 
 	// You may use console.log to debug your JS code, it will be printed via
@@ -85,10 +83,8 @@ func main() {
 	`)
 
 	// Wait until the interrupt signal arrives or browser window is closed
-	sigc := make(chan os.Signal)
-	signal.Notify(sigc, os.Interrupt)
+	signal.Notify(make(chan os.Signal), os.Interrupt)
 	select {
-	case <-sigc:
 	case <-ui.Done():
 	}
 
