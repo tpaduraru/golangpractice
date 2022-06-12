@@ -28,7 +28,8 @@ type counter struct {
 }
 
 func loadLogin() {
-    ui.Load(fmt.Sprintf("http://%s/www/login.html", ln.Addr()))
+	//doesn't work because ui isn't declared yet
+	ui.Load(fmt.Sprintf("http://%s/www/login.html", ln.Addr()))
 }
 
 func (c *counter) Add(n int) {
